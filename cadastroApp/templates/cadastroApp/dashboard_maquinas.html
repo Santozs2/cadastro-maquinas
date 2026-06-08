@@ -1,0 +1,58 @@
+{% extends 'cadastroApp/base.html' %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Visão Geral das Máquinas</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 10px; margin-bottom: 15px; background-color: #d4edda; color: #155724; border-left: 5px solid #28a745;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'maquina_cadastrar' %}" class="btn">+ Nova Máquina</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'nome' %}-nome{% else %}nome{% endif %}">
+                    Máquina {% if ordenacao == 'nome_maquina' %}⬆{% elif ordenacao == '-nome_maquina' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>Número de Patrimônio</th>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'setor' %}-setor{% else %}setor{% endif %}">
+                    Setor {% if ordenacao == 'setor' %}⬆{% elif ordenacao == '-setor' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'colaborador' %}-colaborador{% else %}colaborador{% endif %}">
+                    Colaborador {% if ordenacao == 'colaborador' %}⬆{% elif ordenacao == '-colaborador' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for maquina in maquinas %}
+        <tr>
+            <td>{{ maquina.nome_maquina }}</td>
+            <td>{{ maquina.numero_patrimonio }}</td>
+            <td>{{ maquina.setor }}</td>
+            <td>{{ maquina.colaborador }}</td>
+            <td class="acoes">
+                <a href="{% url 'maquina_editar' maquina.id %}" class="edit">Editar</a>
+                <a href="{% url 'maquina_excluir' maquina.id %}" class="delete">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6">Nenhuma máquina cadastrada.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

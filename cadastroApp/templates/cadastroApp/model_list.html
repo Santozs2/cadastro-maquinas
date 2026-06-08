@@ -1,0 +1,39 @@
+{% extends 'cadastroApp/base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+<a class="button" href="{% url criar_url %}">+ Cadastrar novo</a>
+
+<div class="table-section">
+{% if lista %}
+<table>
+    <thead>
+        <tr>
+            <th class="th-id">ID</th>
+            <th class="th-details">Detalhes</th>
+            <th class="th-actions">Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in lista %}
+            <tr>
+                <td>{{ item.id }}</td>
+                <td>{{ item }}</td>
+                <td>
+                    <a href="{% url editar_url item.id %}" class="button">Editar</a>
+                    <a href="{% url excluir_url item.id %}" class="button-delete">Excluir</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<div class="empty-state">
+    <p class="empty-state-title">📭 Nenhum registro encontrado.</p>
+    <p class="empty-state-message">Clique em "Cadastrar novo" para adicionar o primeiro registro.</p>
+</div>
+{% endif %}
+</div>
+{% endblock %}

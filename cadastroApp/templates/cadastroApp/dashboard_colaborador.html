@@ -1,0 +1,56 @@
+{% extends 'cadastroApp/base.html' %}
+{% block content %}
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h2>Visão Geral dos Colaboradores</h2>
+    {% if messages %}
+        {% for message in messages %}
+            <div style="padding: 10px; margin-bottom: 15px; background-color: #d4edda; color: #155724; border-left: 5px solid #28a745;">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <a href="{% url 'colaborador_cadastrar' %}" class="btn">+ Novo Colaborador</a>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'nome' %}-nome{% else %}nome{% endif %}">
+                    Colaborador {% if ordenacao == 'nome' %}⬆{% elif ordenacao == '-nome' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'email' %}-email{% else %}email{% endif %}">
+                    E-Mail {% if ordenacao == 'email' %}⬆{% elif ordenacao == '-email' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>
+                <a href="{{ url_base }}&sort={% if ordenacao == 'setor' %}-setor{% else %}setor{% endif %}">
+                    Setor {% if ordenacao == 'setor' %}⬆{% elif ordenacao == '-setor' %}⬇{% else %}↕{% endif %}
+                </a>
+            </th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for colaborador in colaboradores %}
+        <tr>
+            <td>{{ colaborador.nome }}</td>
+            <td>{{ colaborador.email }}</td>
+            <td>{{ colaborador.setor.nome }}</td>
+            <td class="acoes">
+                <a href="{% url 'colaborador_editar' colaborador.id %}" class="edit">Editar</a>
+                <a href="{% url 'colaborador_excluir' colaborador.id %}" class="delete">Excluir</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Nenhum colaborador cadastrado.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}
