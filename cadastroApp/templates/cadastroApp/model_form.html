@@ -1,0 +1,23 @@
+{% extends 'cadastroApp/base.html' %}
+
+{% block title %}{{ titulo }}{% endblock %}
+
+{% block content %}
+<h2>{{ titulo }}</h2>
+
+<form method="post" class="form-section">
+    {% csrf_token %}
+    <div class="form-card">
+        {% if form.non_field_errors %}
+            <div class="form-error">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+                
+        {{ form.as_p }}
+        
+        <button type="submit" class="submit-button">✓ Salvar</button>
+        <button type="button" class="cancel-button" onclick="window.history.back();">✗ Cancelar</button>
+    </div>
+</form>
+{% endblock %}
